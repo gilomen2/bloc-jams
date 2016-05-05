@@ -57,9 +57,14 @@ body {
 .links-container .navbar-link:hover {
     color: rgb(233,50,117);
 }
+
 .container {
     margin: 0 auto;
     max-width: 64rem;
+}
+
+.container-narrow {
+    max-width: 56rem;
 }
 
 /*Media Queries*/
