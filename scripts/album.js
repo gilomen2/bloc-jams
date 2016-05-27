@@ -28,6 +28,18 @@ var albumMarconi = {
     ]
 };
 
+var albumLanterman = {
+    title: 'Log Lady',
+    artist: 'Margaret Lanterman',
+    label: 'Lynch Co.',
+    year: '1991',
+    albumArtUrl: 'assets/images/album_covers/08.png',
+    songs: [
+        { title: 'My log saw something that night', duration: '4:23' },
+        { title: 'Are they mirrors?', duration: '5:01' },
+        { title: 'Ask the log', duration: '3:21'}
+    ]
+};
 
 var createSongRow = function(songNumber, songName, songLength) {
     var template = 
@@ -60,6 +72,18 @@ var setCurrentAlbum = function(album){
     }  
 };
 
+
+
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
+    
+    var albumsArray = [albumPicasso, albumMarconi, albumLanterman];
+
+    var toggleAlbum = function(){
+        var last = albumsArray.pop();
+        albumsArray.unshift(last);
+        return setCurrentAlbum(albumsArray[0]);
+    };
+    
+    document.getElementsByClassName("album-cover-art")[0].addEventListener("click", toggleAlbum);
 };
