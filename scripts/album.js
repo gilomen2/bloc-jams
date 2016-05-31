@@ -60,6 +60,13 @@ var setCurrentAlbum = function(album){
     }  
 };
 
+var findParentByClassName = function(selector, className){
+      while(selector.parentElement !== null && selector.parentElement.className !== className){
+        selector = selector.parentElement;
+      }
+      return selector.parentElement;
+};
+
 var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
 var songRows = document.getElementsByClassName('album-view-song-item');
 
