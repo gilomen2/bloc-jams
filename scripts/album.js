@@ -61,10 +61,19 @@ var setCurrentAlbum = function(album){
 };
 
 var findParentByClassName = function(selector, className){
-      while(selector.parentElement !== null && selector.parentElement.className !== className){
-        selector = selector.parentElement;
-      }
-      return selector.parentElement;
+    if(selector.parentElement === null){
+        alert("No parent found");
+    } else{
+        while(selector.parentElement !== null && selector.parentElement.className !== className){
+            selector = selector.parentElement;  
+        }
+        if(selector === null){
+            alert("No parent found with that class name");
+        }
+        else{
+            return selector;
+        } 
+    }    
 };
 
 var getSongItem = function(element){
