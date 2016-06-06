@@ -49,11 +49,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     
     var offHover = function(event){
         var element = $(this).find('.song-item-number');
-        if(element.data('.song-number') === currentlyPlayingSong) {
-            element.html(pauseButtonTemplate);
-        } else{
-            element.html(element.data('song-number'));
-        }
+        element.html(element.data('song-number'));
     };
     
     $row.find('.song-item-number').click(clickHandler);
@@ -107,13 +103,25 @@ var getSongItem = function(element){
     }
 };
 
-var clickHandler = function(){
-    var element = $(this).find('.song-item-number');
-    currentlyPlayingSong = element.data('song-number');
-    
-    element.html(pauseButtonTemplate);
-    
-    console.log(currentlyPlayingSong);
+
+
+var clickHandler = function() {
+	var songNumber = $(this).attr('data-song-number');
+
+	if (currentlyPlayingSong !== null) {
+		// Revert to song number for currently playing song because user started playing new song.
+		var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSong + '"]');
+		currentlyPlayingCell.html(currentlyPlayingSong);
+	}
+	if (currentlyPlayingSong !== songNumber) {
+		// Switch from Play -> Pause button to indicate new song is playing.
+		$(this).html(pauseButtonTemplate);
+		currentlyPlayingSong = songNumber;
+	} else if (currentlyPlayingSong === songNumber) {
+		// Switch from Pause -> Play button to pause currently playing song.
+		$(this).html(playButtonTemplate);
+		currentlyPlayingSong = null;
+	}
 };
 
 var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
