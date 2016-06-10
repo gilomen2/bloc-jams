@@ -111,7 +111,8 @@
 .seek-bar .thumb {
     position: absolute;
     height: 0.5rem;
-    widows: 0.5rem;
+    width: 0.5rem;
+    background-color: white;
     left: 36%;
     top: 50%;
     margin-left: -0.25rem;

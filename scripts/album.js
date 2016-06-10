@@ -133,6 +133,30 @@ var updatePlayerBarSong = function(option){
     $('.main-controls .play-pause').html(option === "play" ? playerBarPlayButton : playerBarPauseButton);
 };
 
+var setupSeekBars = function(){
+    var $seekBars = $('.player-bar .seek-bar');
+    
+    $seekBars.click(function(event){
+        var offsetX = event.pageX - $(this).offset().left;
+        var barWidth = $(this).width();
+        
+        var seekBarFillRatio = offsetX / barWidth;
+        
+        updateSeekPercentage($(this), seekBarFillRatio);
+    });
+};
+
+var updateSeekPercentage = function($seekBar, seekBarFillRatio){
+    var offsetXPercent = seekBarFillRatio * 100;
+    
+    offsetXPercent = Math.max(0, offsetXPercent);
+    offsetXPercent = Math.min(100, offsetXPercent);
+    
+    var percentageString = offsetXPercent + '%';
+    $seekBar.find('.fill').width(percentageString);
+    $seekBar.find('.thumb').css({left: percentageString});
+};
+
 
 var clickHandler = function() {
 	var songNumber = parseInt($(this).attr('data-song-number'));
@@ -183,4 +207,5 @@ $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    setupSeekBars();
 });
