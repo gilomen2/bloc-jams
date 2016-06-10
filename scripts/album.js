@@ -165,7 +165,8 @@ var setupSeekBars = function(){
             
         } else {
             if(currentSoundFile){
-                currentSoundFile.setVolume(Math.round(seekBarFillRatio * 100));
+                currentVolume = Math.round(seekBarFillRatio * 100)
+                currentSoundFile.setVolume(currentVolume);
             }
         }
        
@@ -245,7 +246,7 @@ var clickHandler = function() {
         updateSeekBarWhileSongPlays();
     }
     
-    
+    currentSoundFile.setVolume(currentVolume);
 };
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
