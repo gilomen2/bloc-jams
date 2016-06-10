@@ -225,7 +225,7 @@ var setTotalTimeInPlayerBar = function(totalTime){
 
 var filterTimeCode = function(timeInSeconds){
     var minutes = Math.floor(parseFloat(timeInSeconds)/60);
-    var seconds = ((parseFloat(timeInSeconds)/60 - minutes) * 60).toFixed(0);
+    var seconds = (Math.floor((parseFloat(timeInSeconds)/60 - minutes) * 60)).toFixed(0);
     var formattedSeconds = seconds.length === 2 ? seconds : '0' + seconds;
     return minutes + ":" + formattedSeconds;
     
