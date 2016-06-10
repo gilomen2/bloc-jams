@@ -3,7 +3,7 @@ var createSongRow = function(songNumber, songName, songLength) {
          '<tr class="album-view-song-item">'
         +   '<td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
         +   '<td class="song-item-title">' + songName + '</td>'
-        +   '<td class="song-item-duration">' + songLength + '</td>'
+        +   '<td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
         +'</tr>'
         ;
     
@@ -143,6 +143,7 @@ var updatePlayerBarSong = function(option){
     songName.html(currentSongFromAlbum.title);
     artist.html(currentAlbum.artist);
     artistSongMobile.html(currentSongFromAlbum.title + ' - ' + currentAlbum.artist);
+    setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
     
     $('.main-controls .play-pause').html(option === "play" ? playerBarPlayButton : playerBarPauseButton);
 };
@@ -208,10 +209,27 @@ var updateSeekBarWhileSongPlays = function(){
             var $seekBar = $('.seek-control .seek-bar');
             
             updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(this.getTime());
         });
     }
 };
 
+var setCurrentTimeInPlayerBar = function(currentTime){
+    $('.current-time').html(filterTimeCode(currentTime));
+};
+
+
+var setTotalTimeInPlayerBar = function(totalTime){
+    $('.total-time').html(filterTimeCode(totalTime));
+};
+
+var filterTimeCode = function(timeInSeconds){
+    var minutes = Math.floor(parseFloat(timeInSeconds)/60);
+    var seconds = ((parseFloat(timeInSeconds)/60 - minutes) * 60).toFixed(0);
+    var formattedSeconds = seconds.length === 2 ? seconds : '0' + seconds;
+    return minutes + ":" + formattedSeconds;
+    
+};
 
 var clickHandler = function() {
 	var songNumber = parseInt($(this).attr('data-song-number'));
@@ -268,4 +286,7 @@ $(document).ready(function() {
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
     setupSeekBars();
+    $('.volume .seek-bar .fill').css('width', currentVolume);
+    $('.volume .seek-bar .thumb').css('left', currentVolume);
+    
 });
