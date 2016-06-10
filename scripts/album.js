@@ -58,37 +58,33 @@ var trackIndex = function(album, song){
     return album.songs.indexOf(song);
 };
 
-var nextSong = function(){
+var changeSong = function(direction){
     var currentIndex = trackIndex(currentAlbum, currentSongFromAlbum);
     var $currentSongNumberElement = getSongNumberCell(currentlyPlayingSongNumber);
     var songCount = currentAlbum.songs.length;
     
-    if(currentIndex === songCount - 1){
+    if(direction === "next"){
+        if(currentIndex === songCount - 1){
         $currentSongNumberElement.html(currentlyPlayingSongNumber);
         setSong(1);
-    } else {
-        $currentSongNumberElement.html(currentlyPlayingSongNumber);
-        setSong(currentlyPlayingSongNumber + 1);
-    }
-    var $nextSongNumberElement = getSongNumberCell(currentlyPlayingSongNumber);
-    $nextSongNumberElement.html(pauseButtonTemplate);
-    updatePlayerBarSong();
-};
-
-var previousSong = function(){
-    var currentIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-    var $currentSongNumberElement = getSongNumberCell(currentlyPlayingSongNumber);
-    var songCount = currentAlbum.songs.length;
-    
-    if(currentIndex === 0){
+        } else {
+            $currentSongNumberElement.html(currentlyPlayingSongNumber);
+            setSong(currentlyPlayingSongNumber + 1);
+        } 
+    } else if(direction === "previous"){
+        if(currentIndex === 0){
         $currentSongNumberElement.html(currentlyPlayingSongNumber);
         setSong(songCount);
+        } else {
+            $currentSongNumberElement.html(currentlyPlayingSongNumber);
+            setSong(currentlyPlayingSongNumber - 1);
+        }
     } else {
-        $currentSongNumberElement.html(currentlyPlayingSongNumber);
-        setSong(currentlyPlayingSongNumber - 1);
+        return null;
     }
-    var $prevSongNumberElement = getSongNumberCell(currentlyPlayingSongNumber);
-    $prevSongNumberElement.html(pauseButtonTemplate);
+    
+    var $newSongNumberElement = getSongNumberCell(currentlyPlayingSongNumber);
+    $newSongNumberElement.html(pauseButtonTemplate);
     updatePlayerBarSong();
 };
 
@@ -155,6 +151,10 @@ var $nextButton = $('.main-controls .next');
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
-    $previousButton.click(previousSong);
-    $nextButton.click(nextSong);
+    $previousButton.click(function(){
+        changeSong("previous")
+    });
+    $nextButton.click(function(){
+        changeSong("next")
+    });
 });
